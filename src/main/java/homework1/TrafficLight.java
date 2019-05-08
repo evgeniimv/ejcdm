@@ -6,6 +6,7 @@ import java.util.Map;
 class TrafficLight {
 
     private final LinkedHashMap<Color, Long> config;
+    private final long cycleTime;
 
     TrafficLight(LinkedHashMap<Color, Long> config) {
         if(config == null) {
@@ -21,14 +22,14 @@ class TrafficLight {
         }
 
         this.config = config;
+        this.cycleTime = config.values().stream().mapToLong(x -> x).sum();
     }
 
     Color getColorAtTime(long time) {
         if(time < 0) {
             throw new IllegalArgumentException("Negative time passed to the function");
         }
-
-        final long cycleTime = config.values().stream().mapToLong(x -> x).sum();
+        
         final long reducedTime = time % cycleTime;
 
         long counter = 0;
